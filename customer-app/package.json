@@ -1,7 +1,7 @@
 {
-  "name": "@jersonch/notifications",
+  "name": "@jersonch/customer-app",
   "version": "1.0.0",
-  "description": "Bridge Pattern Implementation for Notifications",
+  "description": "Facade Pattern Implementation for Customer Management",
   "author": "Tu Nombre",
   "private": false,
   "license": "MIT",

@@ -1,0 +1,43 @@
+name: Generate and Publish Documentation
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '21'
+        
+    - name: Install global dependencies
+      run: |
+        npm install -g @nestjs/cli
+        npm install -g @compodoc/compodoc
+        
+    - name: Generate docs for Notifications
+      run: |
+        cd notifications
+        npm install
+        npx @compodoc/compodoc -p tsconfig.json -d ../docs/notifications --hideGenerator
+        
+    - name: Generate docs for CustomerApp
+      run: |
+        cd customer-app
+        npm install
+        npx @compodoc/compodoc -p tsconfig.json -d ../docs/customer-app --hideGenerator
+        
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./docs

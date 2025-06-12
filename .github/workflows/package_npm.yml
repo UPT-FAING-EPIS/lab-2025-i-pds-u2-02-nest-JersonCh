@@ -1,0 +1,63 @@
+name: Test, Analysis and Publish Packages
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  test-and-publish:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '21'
+        registry-url: 'https://npm.pkg.github.com'
+        
+    - name: Install global dependencies
+      run: npm install -g @nestjs/cli
+      
+    - name: Test Notifications
+      run: |
+        cd notifications
+        npm install
+        npm run test:cov
+        
+    - name: Test CustomerApp
+      run: |
+        cd customer-app
+        npm install
+        npm run test:cov
+        
+    - name: SonarCloud Scan
+      uses: SonarSource/sonarcloud-github-action@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        
+    - name: Build and Publish Notifications Package
+      if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+      run: |
+        cd notifications
+        npm version patch
+        npm run build
+        npm publish
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
+    - name: Build and Publish CustomerApp Package
+      if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+      run: |
+        cd customer-app
+        npm version patch
+        npm run build
+        npm publish
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
