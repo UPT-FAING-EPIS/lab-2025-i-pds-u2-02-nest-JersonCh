@@ -9,6 +9,8 @@ on:
 jobs:
   test-and-publish-nuget:
     runs-on: ubuntu-latest
+    # Desactivar este workflow ya que el proyecto es Node.js, no .NET
+    if: false
     
     steps:
     - uses: actions/checkout@v4

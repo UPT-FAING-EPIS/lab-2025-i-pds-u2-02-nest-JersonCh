@@ -1,4 +1,4 @@
-name: Test, Analysis and Publish Packages
+name: Test, Analysis and Build Packages
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [ main, master ]
 
 jobs:
-  test-and-publish:
+  test-and-build:
     runs-on: ubuntu-latest
     
     steps:
@@ -19,7 +19,6 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: '21'
-        registry-url: 'https://npm.pkg.github.com'
         
     - name: Install global dependencies
       run: npm install -g @nestjs/cli
@@ -36,28 +35,33 @@ jobs:
         npm install
         npm run test:cov
         
-    # - name: SonarCloud Scan
-    #   uses: SonarSource/sonarcloud-github-action@master
-    #   env:
-    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        
-    - name: Build and Publish Notifications Package
-      if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+    - name: Build Notifications Package
       run: |
         cd notifications
-        npm version patch
         npm run build
-        npm publish
-      env:
-        NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         
-    - name: Build and Publish CustomerApp Package
-      if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+    - name: Build CustomerApp Package
       run: |
         cd customer-app
-        npm version patch
         npm run build
-        npm publish
-      env:
-        NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
+    # NOTE: Publishing disabled due to organization permissions
+    # - name: Build and Publish Notifications Package
+    #   if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+    #   run: |
+    #     cd notifications
+    #     npm version patch
+    #     npm run build
+    #     npm publish
+    #   env:
+    #     NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
+    # - name: Build and Publish CustomerApp Package
+    #   if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+    #   run: |
+    #     cd customer-app
+    #     npm version patch
+    #     npm run build
+    #     npm publish
+    #   env:
+    #     NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
