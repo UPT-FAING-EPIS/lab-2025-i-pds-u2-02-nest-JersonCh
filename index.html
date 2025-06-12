@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab PDS - Patrones Estructurales</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; background: #f5f5f5; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        h1 { color: #333; border-bottom: 3px solid #007acc; padding-bottom: 10px; }
+        .project { margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 5px; }
+        .project h2 { color: #007acc; margin-top: 0; }
+        a { color: #007acc; text-decoration: none; font-weight: bold; }
+        a:hover { text-decoration: underline; }
+        .pattern { background: #e8f4fd; padding: 10px; border-radius: 5px; margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏗️ Lab de Patrones de Diseño Estructurales</h1>
+        
+        <div class="project">
+            <h2>📧 Notifications - Bridge Pattern</h2>
+            <div class="pattern">
+                <strong>Patrón:</strong> Bridge<br>
+                <strong>Propósito:</strong> Separar la abstracción de su implementación
+            </div>
+            <p>Sistema de notificaciones que permite enviar mensajes largos por email y cortos por SMS.</p>
+            <a href="notifications/">📖 Ver Documentación</a>
+        </div>
+        
+        <div class="project">
+            <h2>👥 Customer App - Facade Pattern</h2>
+            <div class="pattern">
+                <strong>Patrón:</strong> Facade<br>
+                <strong>Propósito:</strong> Proporcionar una interfaz simplificada a un subsistema complejo
+            </div>
+            <p>Sistema de gestión de clientes con interfaz simplificada para operaciones complejas.</p>
+            <a href="customer-app/">📖 Ver Documentación</a>
+        </div>
+        
+        <hr style="margin: 30px 0;">
+        <p><small>Generado automáticamente con GitHub Actions y Compodoc</small></p>
+    </div>
+</body>
+</html>
